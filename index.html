@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FileKit — Free PDF & Image Tools</title>
+<meta name="description" content="Merge PDFs, organize pages, convert images and remove image backgrounds with simple online tools.">
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{--ink:#172033;--muted:#64748b;--line:#e2e8f0;--blue:#315efb;--bg:#f7f8fc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+header{background:white;border-bottom:1px solid var(--line);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:23px;font-weight:850;letter-spacing:-1px}
+.logo span{color:var(--blue)}
+header a{color:var(--muted);text-decoration:none}
+.hero{text-align:center;padding:48px 16px 28px}
+.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.1;letter-spacing:-1.8px;margin:0 0 14px}
+.hero p{color:var(--muted);max-width:600px;margin:auto}
+main{max-width:1060px;margin:auto;padding:18px 18px 56px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 16px #17203305}
+.card h2{font-size:18px;margin:10px 0 5px}
+.card p{color:var(--muted);font-size:13px;min-height:40px}
+.emoji{font-size:28px}
+button,.upload{border:0;border-radius:9px;background:var(--blue);color:white;padding:11px 14px;font:inherit;font-weight:700;cursor:pointer;display:inline-block;text-align:center}
+button:hover,.upload:hover{filter:brightness(.94)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:#eef2ff;color:#2447bd}
+.danger{background:#fff0f0;color:#b42318}
+.action{width:100%;margin-top:10px}
+input[type=file]{width:100%;font-size:13px;margin:10px 0}
+small,.hint{color:var(--muted);font-size:12px}
+#status{margin:18px 0;padding:12px 15px;border-radius:10px;background:#eef2ff;color:#2447bd;display:none;overflow-wrap:anywhere}
+#pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:12px;margin-top:14px}
+.page{border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff;text-align:center;min-width:0}
+.page canvas{width:100%;height:auto;border:1px solid #eee}
+.page .controls{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.page button{font-size:12px;padding:6px;flex:1}
+#result{margin-top:16px}
+footer{text-align:center;padding:28px;color:var(--muted);font-size:13px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">File<span>Kit</span></div>
+  <a href="#tools">All tools ↓</a>
+</header>
+
+<section class="hero">
+  <h1>Your files.<br>Ready in seconds.</h1>
+  <p>Merge PDFs, organize pages, convert images and remove backgrounds — all in one simple workspace.</p>
+</section>
+
+<main id="tools">
+<div class="tools">
+
+<section class="card">
+<div class="emoji">📚</div>
+<h2>Merge PDFs</h2>
+<p>Combine multiple PDF files into one document.</p>
+<input id="mergeFiles" type="file" accept=".pdf,application/pdf" multiple>
+<button class="action" onclick="mergePDFs()">Merge PDFs</button>
+</section>
+
+<section class="card">
+<div class="emoji">📄</div>
+<h2>Reorder / Delete Pages</h2>
+<p>Load a PDF, move pages up or down, remove pages and save the result.</p>
+<input id="organizeFile" type="file" accept=".pdf,application/pdf">
+<div id="pages"></div>
+<button class="action" onclick="saveOrganizedPDF()">Download Updated PDF</button>
+</section>
+
+<section class="card">
+<div class="emoji">🖼️</div>
+<h2>Images to PDF</h2>
+<p>Combine JPEG and PNG images into a single PDF.</p>
+<input id="imageFiles" type="file" accept="image/jpeg,image/png" multiple>
+<button class="action" onclick="imagesToPDF()">Convert to PDF</button>
+</section>
+
+<section class="card">
+<div class="emoji">📑</div>
+<h2>PDF to Images</h2>
+<p>Convert every PDF page into a downloadable PNG image.</p>
+<input id="renderFile" type="file" accept=".pdf,application/pdf">
+<button class="action" onclick="pdfToImages()">Convert PDF to PNGs</button>
+</section>
+
+<section class="card">
+<div class="emoji">✂️</div>
+<h2>Background Remover</h2>
+<p>Use AI to remove an image background and download a transparent PNG.</p>
+<input id="bgFile" type="file" accept="image/*">
+<button class="action" onclick="removeBG()">Remove Background</button>
+<div id="bgResult"></div>
+</section>
+
+</div>
+
+<div id="status" role="status" aria-live="polite"></div>
+<div id="result"></div>
+
+<hr>
+<p class="hint">Privacy: PDF merge, page editing and image conversion run in your browser. The background-removal feature downloads an AI model from an external CDN on first use. Do not upload sensitive images unless you are comfortable with that dependency.</p>
+</main>
+
+<footer>FileKit · Simple tools for everyday work</footer>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const $ = id => document.getElementById(id);
+let originalPDFBytes = null;
+let pageOrder = [];
+
+function status(message, error=false) {
+  const el=$("status");
+  el.style.display="block";
+  el.style.background=error?"#fff0f0":"#eef2ff";
+  el.style.color=error?"#b42318":"#2447bd";
+  el.textContent=message;
+}
+function downloadBlob(blob,name) {
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function downloadBytes(bytes,name,type="application/pdf") {
+  downloadBlob(new Blob([bytes],{type}),name);
+}
+function safeName(name) {
+  return name.replace(/[^\w.-]+/g,"_");
+}
+
+async function mergePDFs() {
+  try {
+    const files=[...$("mergeFiles").files];
+    if(files.length<2) throw Error("Choose at least two PDF files.");
+    status("Merging PDF files...");
+    const out=await PDFLib.PDFDocument.create();
+    for(const file of files) {
+      const src=await PDFLib.PDFDocument.load(await file.arrayBuffer());
+      const copied=await out.copyPages(src,src.getPageIndices());
+      copied.forEach(page=>out.addPage(page));
+    }
+    downloadBytes(await out.save(),"merged.pdf");
+    status("Success! Your merged PDF is downloading.");
+  } catch(e) { status(e.message||"Unable to merge these PDFs.",true); }
+}
+
+$("organizeFile").addEventListener("change",async e=>{
+  try {
+    const file=e.target.files[0];
+    if(!file)return;
+    status("Loading pages...");
+    originalPDFBytes=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:originalPDFBytes.slice(0)}).promise;
+    pageOrder=Array.from({length:pdf.numPages},(_,i)=>i);
+    $("pages").innerHTML="";
+    for(let i=1;i<=pdf.numPages;i++) {
+      const page=await pdf.getPage(i);
+      const viewport=page.getViewport({scale:.45});
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.floor(viewport.width);
+      canvas.height=Math.floor(viewport.height);
+      await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;
+      const item=document.createElement("div");
+      item.className="page";
+      item.dataset.index=i-1;
+      item.appendChild(canvas);
+      const label=document.createElement("div");
+      label.className="pageLabel";
+      label.textContent="Page "+i;
+      item.appendChild(label);
+      const controls=document.createElement("div");
+      controls.className="controls";
+      const up=document.createElement("button");
+      up.className="secondary";up.textContent="↑";
+      up.title="Move page up";
+      up.onclick=()=>movePage(i-1,-1);
+      const down=document.createElement("button");
+      down.className="secondary";down.textContent="↓";
+      down.title="Move page down";
+      down.onclick=()=>movePage(i-1,1);
+      const del=document.createElement("button");
+      del.className="danger";del.textContent="Delete";
+      del.onclick=()=>deletePage(i-1);
+      controls.append(up,down,del);item.appendChild(controls);
+      $("pages").appendChild(item);
+    }
+    refreshPageOrder();
+    status(pdf.numPages+" pages loaded. Use ↑ and ↓ to reorder, or Delete to remove a page.");
+  } catch(e) { status("Could not read this PDF. Try another file.",true); }
+});
+
+function refreshPageOrder() {
+  const container=$("pages");
+  pageOrder.forEach(index=>{
+    const item=[...container.children].find(el=>Number(el.dataset.index)===index);
+    if(item) {
+      container.appendChild(item);
+      item.querySelector(".pageLabel").textContent="Page "+(pageOrder.indexOf(index)+1)+" (original "+(index+1)+")";
+    }
+  });
+}
+function movePage(originalIndex,delta) {
+  const pos=pageOrder.indexOf(originalIndex);
+  const next=pos+delta;
+  if(pos<0||next<0||next>=pageOrder.length)return;
+  [pageOrder[pos],pageOrder[next]]=[pageOrder[next],pageOrder[pos]];
+  refreshPageOrder();
+}
+function deletePage(originalIndex) {
+  if(pageOrder.length<=1) {
+    status("A PDF must contain at least one page.",true);return;
+  }
+  pageOrder=pageOrder.filter(i=>i!==originalIndex);
+  const item=[...$("pages").children].find(el=>Number(el.dataset.index)===originalIndex);
+  if(item)item.remove();
+  refreshPageOrder();
+  status("Page removed from the proposed output. Download to save your changes.");
+}
+async function saveOrganizedPDF() {
+  try {
+    if(!originalPDFBytes)throw Error("Choose a PDF first.");
+    if(!pageOrder.length)throw Error("Keep at least one page.");
+    status("Preparing updated PDF...");
+    const src=await PDFLib.PDFDocument.load(originalPDFBytes);
+    const out=await PDFLib.PDFDocument.create();
+    const copied=await out.copyPages(src,pageOrder);
+    copied.forEach(p=>out.addPage(p));
+    downloadBytes(await out.save(),"organized.pdf");
+    status("Updated PDF downloaded successfully.");
+  } catch(e) {status(e.message||"Could not save PDF.",true);}
+}
+
+async function imagesToPDF() {
+  try {
+    const files=[...$("imageFiles").files];
+    if(!files.length)throw Error("Choose one or more JPEG or PNG images.");
+    status("Creating PDF...");
+    const pdf=await PDFLib.PDFDocument.create();
+    for(const file of files) {
+      const bytes=await file.arrayBuffer();
+      const img=file.type==="image/png"
+        ?await pdf.embedPng(bytes)
+        :await pdf.embedJpg(bytes);
+      const page=pdf.addPage([img.width,img.height]);
+      page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
+    }
+    downloadBytes(await pdf.save(),"images.pdf");
+    status("Your image PDF is ready.");
+  } catch(e) {status(e.message||"Image conversion failed. Use JPEG or PNG.",true);}
+}
+
+async function pdfToImages() {
+  try {
+    const file=$("renderFile").files[0];
+    if(!file)throw Error("Choose a PDF file first.");
+    status("Rendering PDF pages...");
+    const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+    for(let i=1;i<=pdf.numPages;i++) {
+      status("Rendering page "+i+" of "+pdf.numPages+"...");
+      const page=await pdf.getPage(i);
+      const viewport=page.getViewport({scale:1.5});
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.ceil(viewport.width);
+      canvas.height=Math.ceil(viewport.height);
+      await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;
+      const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+      downloadBlob(blob,"page-"+i+".png");
+    }
+    status("Finished rendering. Your PNG pages should be downloading individually.");
+  } catch(e) {status(e.message||"Could not convert this PDF.",true);}
+}
+
+async function removeBG() {
+  const file=$("bgFile").files[0];
+  if(!file) {status("Choose an image first.",true);return;}
+  try {
+    status("Loading AI background-removal engine. The first run may take a while...");
+    const mod=await import("https://esm.sh/@imgly/background-removal@1.5.5");
+    const removeBackground=mod.default;
+    const result=await removeBackground(file);
+    downloadBlob(result,"background-removed.png");
+    const url=URL.createObjectURL(result);
+    $("bgResult").innerHTML="";
+    const img=document.createElement("img");
+    img.src=url;img.alt="Background-removed result";
+    img.style.cssText="width:100%;margin-top:12px;border-radius:8px;background:repeating-conic-gradient(#eee 0% 25%,white 0% 50%) 50%/16px 16px";
+    $("bgResult").appendChild(img);
+    status("Background removed. Transparent PNG download started.");
+  } catch(e) {
+    console.error(e);
+    status("Background removal could not start. Check the browser console and AI model CDN availability.",true);
+  }
+}
+</script>
+</body>
+</html>
