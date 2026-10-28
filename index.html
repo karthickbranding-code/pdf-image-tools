@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff5fa">
-<title>FileKit — PDF & Image Tools</title>
-<meta name="description" content="Free browser-based PDF and image tools. Merge PDFs, organize pages, convert images, preview files and remove image backgrounds.">
+<title>PDFtoPDF.in — Free PDF & Image Tools</title>
+<meta name="description" content="PDFtoPDF.in — simple browser-based PDF and image tools. Merge, organize and convert files online.">
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -51,7 +51,7 @@ button{cursor:pointer}
 .section-heading p{margin:3px 0 0;color:var(--muted);font-size:12px}
 .pill{display:inline-block;background:var(--pink-soft);color:var(--pink-dark);padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}
 .tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.tool-card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 4px 15px #be185d06;min-width:0;transition:transform .18s,border-color .18s,box-shadow .18s;scroll-margin-top:95px}
+#toolGrid{display:none!important}\n.tool-card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 4px 15px #be185d06;min-width:0;transition:transform .18s,border-color .18s,box-shadow .18s;scroll-margin-top:95px}
 .tool-card:hover,.tool-card.active{border-color:#ed9ac4;box-shadow:var(--shadow);transform:translateY(-1px)}
 .card-top{display:flex;align-items:center;gap:11px}
 .tool-icon{height:43px;width:43px;flex:0 0 43px;display:grid;place-items:center;border-radius:13px;background:var(--pink-soft);font-size:22px}
@@ -142,26 +142,94 @@ footer{margin-top:12px}
 @media(max-width:850px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}.right-rail{grid-template-columns:1fr}.right-rail .workspace:first-child{display:block}.right-rail .workspace:first-child .preview-frame{margin-top:12px}.right-rail .workspace:first-child .preview-note{text-align:center}.hero{padding:24px 8px}}
 @media(max-width:560px){.layout{padding:10px 13px 22px}.tools{grid-template-columns:1fr;gap:11px}.tool-card{min-height:0;padding:17px}.tool-card .desc{min-height:0}.category-pills{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.category-pill{padding:8px 13px}.hero h1{font-size:34px}.hero p{font-size:14px}.section-heading{align-items:flex-start}.right-rail .workspace:first-child{display:block}}
 
+
+/* PDFtoPDF.in: icon-first tool directory and dedicated workspace */
+.nav-link{font-weight:750;padding:10px 12px;border-radius:10px;white-space:nowrap}
+.nav-link:hover{background:var(--pink-soft);color:var(--pink-dark)}
+.mega-group{position:static}
+.top-inner{position:relative}
+.mega-trigger{color:#e6292f}
+.mega-menu{display:none;position:absolute;top:calc(100% + 8px);left:22px;right:22px;background:#fff;border:1px solid #eee5eb;border-radius:15px;padding:25px 26px;box-shadow:0 18px 45px rgba(38,25,35,.13);z-index:50;grid-template-columns:repeat(7,minmax(0,1fr));gap:22px}
+.mega-group.open .mega-menu{display:grid}
+.mega-col h3{font-size:12px;color:#777681;margin:0 0 15px;font-weight:800;white-space:nowrap}
+.mega-col a{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12px;font-weight:650;color:#25232a;line-height:1.35}
+.mega-col a:hover{color:var(--pink-dark)}
+.mega-col a span{font-size:16px;width:22px;flex:0 0 22px}
+.hero{padding:28px 10px 24px}
+.hero h1{font-size:clamp(34px,3.8vw,48px);letter-spacing:-1.7px;line-height:1.12}
+.hero h1 span{color:#34323a}
+.layout{max-width:1580px;display:grid;grid-template-columns:150px minmax(0,1fr) 150px;gap:20px;padding:20px 22px}
+.left-rail{display:flex}
+.right-rail{display:flex;flex-direction:column}
+.right-rail .workspace{display:none}
+.right-rail .ad-slot{min-height:280px}
+.center{min-width:0}
+.tools.launcher-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
+.launcher-card{background:#fff;border:1px solid #dedce5;border-radius:14px;padding:19px 15px;min-height:120px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;cursor:pointer;transition:border-color .16s,box-shadow .16s,transform .16s}
+.launcher-card:hover{border-color:#e5a0c2;box-shadow:0 8px 22px rgba(45,35,52,.07);transform:translateY(-2px)}
+.launcher-icon{width:42px;height:42px;border-radius:9px;background:#fff0f7;display:grid;place-items:center;font-size:23px}
+.launcher-title{font-size:15px;font-weight:750;color:#34323a;line-height:1.3}
+.tool-workspace{margin-top:8px}
+.workspace-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.workspace-columns{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:18px;align-items:start}
+.workspace-main{min-width:0}
+.workspace-main .tool-card{display:block;min-height:0;padding:24px;border-radius:17px}
+.workspace-main .tool-card .card-top{display:flex;align-items:center;gap:13px}
+.workspace-main .tool-card .tool-icon{margin:0;width:48px;height:48px}
+.workspace-main .tool-card h3{font-size:23px}
+.workspace-main .tool-card .sub{display:block}
+.workspace-main .tool-card .desc{font-size:14px;min-height:0;margin:18px 0}
+.workspace-main .tool-card .file-input{margin:8px 0}
+.workspace-main .tool-card .action{max-width:300px}
+.workspace-main .tool-card #pages{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.workspace-ad .ad-slot{min-height:250px}
+.history-panel{margin-top:25px;border:1px solid #e2dfe6;background:#fff;border-radius:16px;padding:18px}
+.history-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.history-head h2{font-size:19px;margin:0}.history-head p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.history-list{display:grid;gap:8px;margin-top:14px}
+.history-row{display:flex;align-items:center;gap:11px;border:1px solid #f0e8ed;border-radius:11px;padding:10px 12px;min-width:0}
+.history-file-icon{font-size:21px}
+.history-info{flex:1;min-width:0}
+.history-info strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.history-info small{display:block;color:var(--muted);font-size:11px}
+.history-actions{display:flex;gap:5px}
+.history-actions button{border:1px solid #e9dfe6;background:#fff;border-radius:8px;padding:7px 9px;color:#5d4c58}
+.history-empty{font-size:13px;color:var(--muted);padding:18px 0;text-align:center}
+#toolGrid:not(.launcher-grid){display:none}
+.ad-slot{background:#fff;border:1px dashed #dfc8d4}
+@media(max-width:1350px){.mega-menu{grid-template-columns:repeat(4,minmax(0,1fr));max-height:70vh;overflow:auto}.tools.launcher-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.layout{grid-template-columns:120px minmax(0,1fr) 120px;gap:13px}}
+@media(max-width:980px){.layout{grid-template-columns:minmax(0,1fr);padding:12px}.left-rail,.right-rail{display:none}.tools.launcher-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.mega-menu{left:10px;right:10px;grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.nav-link{padding:9px 8px}.tools.launcher-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.launcher-card{min-height:110px}.workspace-columns{grid-template-columns:1fr}.workspace-ad{display:none}.mega-menu{position:static;grid-template-columns:repeat(2,minmax(0,1fr));max-height:65vh;overflow:auto;margin-top:6px}.mega-group{position:relative}.mega-group.open .mega-menu{display:grid}.top-inner{align-items:center}.hero{padding:20px 3px}.hero h1{font-size:34px}.history-panel{padding:13px}}
+
 </style>
 </head>
 <body>
 <header class="topbar">
   <div class="top-inner">
-    <a class="brand" href="#" aria-label="FileKit home">File<span class="mark">Kit</span><span style="font-size:10px;color:#9d788b;letter-spacing:.4px;margin-left:6px">TOOLS</span></a>
+    <a class="brand" href="#home" aria-label="PDFtoPDF.in home">PDF<span class="mark">to</span>PDF<span style="font-size:10px;color:#9d788b;letter-spacing:.4px;margin-left:6px">.IN</span></a>
     <button class="mobile-menu" id="mobileMenu" aria-expanded="false">☰ Menu</button>
     <nav class="nav" id="mainNav" aria-label="Tool categories">
+      <a class="nav-link" href="#home">Home</a>
       <div class="nav-group"><button class="nav-button" aria-expanded="false">PDF Tools ▾</button><div class="dropdown">
-        <a href="#merge">Merge PDF</a><a href="#organize">Reorder / Delete Pages</a><a href="#pdfimages">PDF to PNG</a><a href="#split">Split PDF</a><a href="#compress">Compress PDF</a>
+        <a href="#home" data-open-tool="merge">🟠 Merge PDF</a><a href="#home" data-open-tool="organize">🟠 Organize PDF Pages</a><a href="#home" data-open-tool="split">🟠 Split PDF</a><a href="#home" data-open-tool="compress">🟢 Compress PDF</a>
       </div></div>
       <div class="nav-group"><button class="nav-button" aria-expanded="false">Image Tools ▾</button><div class="dropdown">
-        <a href="#imagepdf">Image to PDF</a><a href="#background">Background Remover</a><a href="#imagecompress">Image Compressor</a>
+        <a href="#home" data-open-tool="imagepdf">🟡 Images to PDF</a><a href="#home" data-open-tool="pdfimages">🔵 PDF to PNG</a><a href="#home" data-open-tool="background">🟣 Background Remover</a>
       </div></div>
-      <div class="nav-group"><button class="nav-button" aria-expanded="false">Convert ▾</button><div class="dropdown">
-        <a href="#imagepdf">JPG / PNG to PDF</a><a href="#pdfimages">PDF to PNG</a><a href="#wordtools">Word ↔ PDF (planned)</a>
+      <div class="nav-group"><button class="nav-button" aria-expanded="false">Convert PDF ▾</button><div class="dropdown">
+        <a href="#home" data-open-tool="imagepdf">🖼️ JPG / PNG to PDF</a><a href="#home" data-open-tool="pdfimages">📄 PDF to PNG</a><a href="#home" data-open-tool="wordtools">📝 Word ↔ PDF (planned)</a>
       </div></div>
-      <div class="nav-group"><button class="nav-button" aria-expanded="false">More ▾</button><div class="dropdown">
-        <a href="#privacy">Privacy & file handling</a><a href="#toolList">All available tools</a>
-      </div></div>
+      <div class="nav-group mega-group"><button class="nav-button mega-trigger" id="megaTrigger" aria-expanded="false">All PDF Tools ⌃</button>
+        <div class="mega-menu" id="megaMenu">
+          <div class="mega-col"><h3>🟠 ORGANIZE PDF</h3><a href="#home" data-open-tool="merge"><span>🟠</span> Merge PDF</a><a href="#home" data-open-tool="split"><span>🟠</span> Split PDF</a><a href="#home" data-open-tool="organize"><span>✂️</span> Remove / Reorder Pages</a><a href="#home" data-open-tool="organize"><span>📑</span> Extract Pages</a></div>
+          <div class="mega-col"><h3>🟢 OPTIMIZE PDF</h3><a href="#home" data-open-tool="compress"><span>🟢</span> Compress PDF</a><a href="#home" data-open-tool="compress"><span>🛠️</span> Repair PDF</a><a href="#home" data-open-tool="compress"><span>🔎</span> OCR PDF</a></div>
+          <div class="mega-col"><h3>🟡 CONVERT TO PDF</h3><a href="#home" data-open-tool="imagepdf"><span>🖼️</span> JPG to PDF</a><a href="#home" data-open-tool="wordtools"><span>📝</span> Word to PDF</a><a href="#home" data-open-tool="wordtools"><span>📊</span> Excel / PowerPoint to PDF</a></div>
+          <div class="mega-col"><h3>🔵 CONVERT FROM PDF</h3><a href="#home" data-open-tool="pdfimages"><span>🖼️</span> PDF to JPG / PNG</a><a href="#home" data-open-tool="wordtools"><span>📝</span> PDF to Word</a><a href="#home" data-open-tool="wordtools"><span>📊</span> PDF to Excel / PowerPoint</a></div>
+          <div class="mega-col"><h3>🟣 EDIT PDF</h3><a href="#home" data-open-tool="organize"><span>↻</span> Rotate / Organize</a><a href="#home" data-open-tool="organize"><span>🔢</span> Page order</a><a href="#home" data-open-tool="background"><span>✍️</span> Edit / Annotate</a></div>
+          <div class="mega-col"><h3>🔷 PDF SECURITY</h3><a href="#home" data-open-tool="wordtools"><span>🔓</span> Unlock PDF (planned)</a><a href="#home" data-open-tool="wordtools"><span>🔒</span> Protect PDF (planned)</a><a href="#home" data-open-tool="wordtools"><span>🖊️</span> Sign PDF (planned)</a></div>
+          <div class="mega-col"><h3>✨ PDF INTELLIGENCE</h3><a href="#home" data-open-tool="wordtools"><span>✨</span> AI Summarizer (planned)</a><a href="#home" data-open-tool="wordtools"><span>🌐</span> Translate PDF (planned)</a><a href="#home" data-open-tool="wordtools"><span>⌘</span> PDF to Markdown (planned)</a></div>
+        </div>
+      </div>
     </nav>
     <button class="top-cta" onclick="document.getElementById('toolSearch').focus()">Find a tool</button>
   </div>
@@ -197,6 +265,12 @@ footer{margin-top:12px}
       <button class="category-pill" data-category="security" type="button">PDF Security</button>
     </div>
 
+    <div class="tools launcher-grid" id="homeTools"></div>
+    <section id="toolWorkspace" class="tool-workspace hidden">
+      <div class="workspace-toolbar"><button type="button" class="secondary" id="backHome">← All tools</button><div><span class="pill">PDFtoPDF.in WORKSPACE</span></div></div>
+      <div class="workspace-columns"><div class="workspace-main"><div id="activeToolMount"></div><div class="status" id="workspaceStatus" role="status" aria-live="polite"></div></div><aside class="workspace-ad"><div class="ad-slot"><span class="ad-label">ADVERTISEMENT</span><div class="ad-art">▧</div><strong>Ad space</strong><p>Responsive AdSense placement</p></div></aside></div>
+    </section>
+    <section class="history-panel" id="historyPanel"><div class="history-head"><div><h2>Recent activity</h2><p>Your recent files on this device</p></div><button class="secondary" id="clearHistory" type="button">Clear history</button></div><div id="historyList" class="history-list"></div></section>
     <div class="tools" id="toolGrid">
       <section class="tool-card active" id="merge" data-tool="merge" data-name="merge pdf combine join">
         <div class="card-top"><div class="tool-icon">📚</div><div><h3>Merge PDFs</h3><div class="sub">Combine documents</div></div></div>
@@ -279,7 +353,7 @@ footer{margin-top:12px}
 </div>
 
 <footer>
-  <div>FileKit · Simple tools for everyday work</div>
+  <div>FileKit · PDFtoPDF.in · Simple tools for everyday work</div>
   <div style="margin-top:7px"><a href="#privacy">Privacy & file handling</a> · <a href="#toolList">All tools</a> · Pink and white, made for clarity</div>
   <p style="font-size:10px">Ad placeholders are visual samples only. No advertisements are currently served.</p>
 </footer>
@@ -331,7 +405,29 @@ async function saveOrganizedPDF(){try{if(!originalPDFBytes)throw Error("Choose a
 async function imagesToPDF(){try{const files=[...$("imageFiles").files];if(!files.length)throw Error("Choose one or more JPEG or PNG images.");status("Creating PDF...");const pdf=await PDFLib.PDFDocument.create();for(const file of files){const bytes=await file.arrayBuffer();let img;if(file.type==="image/png")img=await pdf.embedPng(bytes);else if(file.type==="image/jpeg"||file.type==="image/jpg")img=await pdf.embedJpg(bytes);else throw Error("Use JPEG or PNG images only.");const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}const bytes=await pdf.save();downloadBytes(bytes,"images.pdf");setPreview("Image PDF","Complete",files.length+" pages · "+formatBytes(bytes.length));status("Your image PDF is ready.");}catch(e){status(e.message||"Image conversion failed. Use JPEG or PNG.",true);}}
 async function pdfToImages(){try{const file=$("renderFile").files[0];if(!file)throw Error("Choose a PDF file first.");status("Rendering PDF pages...");const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;const previewGrid=document.createElement("div");previewGrid.className="preview-pages";for(let i=1;i<=pdf.numPages;i++){status("Rendering page "+i+" of "+pdf.numPages+"...");const page=await pdf.getPage(i);const vp=page.getViewport({scale:1.5});const canvas=document.createElement("canvas");canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));if(!blob)throw Error("Could not create PNG for page "+i);if(i<=4){const small=document.createElement("canvas");const smallVp=page.getViewport({scale:.35});small.width=Math.ceil(smallVp.width);small.height=Math.ceil(smallVp.height);await page.render({canvasContext:small.getContext("2d"),viewport:smallVp}).promise;const wrap=document.createElement("div");wrap.className="preview-page";wrap.append(small);const label=document.createElement("div");label.textContent="Page "+i;wrap.appendChild(label);previewGrid.appendChild(wrap);}downloadBlob(blob,"page-"+i+".png");} $("livePreview").innerHTML="";$("livePreview").appendChild(previewGrid);setPreview("PNG export","Complete",pdf.numPages+" page(s) rendered and downloaded.");status("Finished rendering. PNG pages should be downloading individually.");}catch(e){status(e.message||"Could not convert this PDF.",true);}}
 async function removeBG(){const file=$("bgFile").files[0];if(!file){status("Choose an image first.",true);return;}try{status("Loading AI background-removal engine. First use may take a while...");const mod=await import("https://esm.sh/@imgly/background-removal@1.5.5");const removeBackground=mod.default;const result=await removeBackground(file);downloadBlob(result,"background-removed.png");const url=trackUrl(result);$("livePreview").innerHTML="";const img=document.createElement("img");img.className="preview-image";img.src=url;img.alt="Background removed transparent PNG preview";img.style.background="repeating-conic-gradient(#eee 0% 25%,white 0% 50%) 50%/16px 16px";$("livePreview").appendChild(img);setPreview("Background removed","Complete","Transparent PNG · "+formatBytes(result.size));$("bgResult")?.replaceChildren();status("Background removed. Transparent PNG download started.");}catch(e){console.error(e);status("Background removal could not start. Check browser console and AI model CDN availability.",true);}}
+buildLaunchers();
+readHistory();
 selectTool("merge");
+
+/* Tool directory, workspace navigation and local recent-file history */
+const historyKey="pdftopdf_recent_v1";
+let historyItems=[];
+function readHistory(){try{historyItems=JSON.parse(localStorage.getItem(historyKey)||"[]");}catch{historyItems=[];}renderHistory();}
+function persistHistory(){try{localStorage.setItem(historyKey,JSON.stringify(historyItems.slice(0,30)));}catch{}renderHistory();}
+function addHistory(name,kind,blob){const id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);const item={id,name,kind,size:blob?.size||0,date:new Date().toLocaleString(),dataUrl:null};if(blob){const reader=new FileReader();reader.onload=()=>{item.dataUrl=reader.result;historyItems.unshift(item);persistHistory();};reader.onerror=()=>{historyItems.unshift(item);persistHistory();};reader.readAsDataURL(blob);}else{historyItems.unshift(item);persistHistory();}}
+function renderHistory(){const box=$("historyList");if(!box)return;box.innerHTML="";if(!historyItems.length){const empty=document.createElement("div");empty.className="history-empty";empty.textContent="Your completed files will appear here on this device.";box.appendChild(empty);return;}historyItems.slice(0,20).forEach(item=>{const row=document.createElement("div");row.className="history-row";const icon=document.createElement("span");icon.className="history-file-icon";icon.textContent=item.kind==="PNG"?"🖼️":"📄";const info=document.createElement("div");info.className="history-info";const title=document.createElement("strong");title.textContent=item.name;const meta=document.createElement("small");meta.textContent=item.date+" · "+formatBytes(item.size);info.append(title,meta);const actions=document.createElement("div");actions.className="history-actions";if(item.dataUrl){const dl=document.createElement("button");dl.type="button";dl.title="Download file";dl.setAttribute("aria-label","Download "+item.name);dl.textContent="↓";dl.onclick=()=>{const a=document.createElement("a");a.href=item.dataUrl;a.download=item.name;a.click();};actions.appendChild(dl);}const del=document.createElement("button");del.type="button";del.title="Remove from history";del.setAttribute("aria-label","Delete "+item.name);del.textContent="×";del.onclick=()=>{historyItems=historyItems.filter(x=>x.id!==item.id);persistHistory();};actions.appendChild(del);row.append(icon,info,actions);box.appendChild(row);});}
+function openToolWorkspace(id){const card=document.querySelector('.tool-card[data-tool="'+id+'"]');if(!card)return;const mount=$("activeToolMount");if(card.parentElement!==mount){if(!card.dataset.homeParent){card.dataset.homeParent="toolGrid";}mount.appendChild(card);}document.querySelectorAll(".tool-card").forEach(c=>c.classList.toggle("hidden",c!==card));$("homeTools").classList.add("hidden");$("toolWorkspace").classList.remove("hidden");$("historyPanel").classList.add("hidden");$("toolSearch").value="";$("toolWorkspace").scrollIntoView({behavior:"smooth",block:"start"});selectTool(id);}
+function goHome(){const mount=$("activeToolMount");const card=mount.querySelector(".tool-card");if(card)$("toolGrid").appendChild(card);$("toolWorkspace").classList.add("hidden");$("homeTools").classList.remove("hidden");$("historyPanel").classList.remove("hidden");document.querySelectorAll(".tool-card").forEach(c=>c.classList.remove("hidden"));window.scrollTo({top:0,behavior:"smooth"});}
+function buildLaunchers(){const icons={merge:"🗂️",organize:"📑",imagepdf:"🖼️",pdfimages:"📄",background:"✂️",split:"✂️",compress:"🗜️",imagecompress:"🌸",wordtools:"📝"};const home=$("homeTools");home.innerHTML="";document.querySelectorAll("#toolGrid .tool-card").forEach(card=>{const b=document.createElement("button");b.type="button";b.className="launcher-card";b.dataset.tool=card.dataset.tool;const ico=document.createElement("span");ico.className="launcher-icon";ico.textContent=icons[card.dataset.tool]||"📄";const title=document.createElement("span");title.className="launcher-title";title.textContent=toolNames[card.dataset.tool]||card.querySelector("h3")?.textContent||"PDF tool";b.append(ico,title);b.onclick=()=>openToolWorkspace(card.dataset.tool);home.appendChild(b);});}
+$("backHome").addEventListener("click",goHome);
+$("clearHistory").addEventListener("click",()=>{historyItems=[];persistHistory();});
+document.querySelectorAll("[data-open-tool]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();document.querySelectorAll(".nav-group").forEach(g=>{g.classList.remove("open");g.querySelector(".nav-button")?.setAttribute("aria-expanded","false");});$("mainNav").classList.remove("mobile-open");openToolWorkspace(a.dataset.openTool);}));
+const originalDownloadBytes=downloadBytes;
+downloadBytes=function(bytes,name,type="application/pdf"){const blob=new Blob([bytes],{type});addHistory(name,type.includes("png")?"PNG":"PDF",blob);downloadBlob(blob,name);};
+const originalDownloadBlob=downloadBlob;
+downloadBlob=function(blob,name){addHistory(name,blob.type.includes("png")?"PNG":"PDF",blob);originalDownloadBlob(blob,name);};
+readHistory();
+
 </script>
 </body>
 </html>
