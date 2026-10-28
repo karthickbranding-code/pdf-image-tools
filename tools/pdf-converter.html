@@ -6,7 +6,7 @@
 <section class="panel" id="options" hidden><h2>Options</h2><p class="sub">Choose how you want to process this file.</p><label for="taskOption">Choose a conversion</label><select id="taskOption"><option value="/tools/jpg-to-pdf.html">JPG to PDF</option><option value="/tools/pdf-to-jpg.html">PDF to JPG</option><option value="/tools/pdf-to-word.html">PDF to Word</option><option value="/tools/word-to-pdf.html">Word to PDF</option></select><div class="actions"><button class="btn" id="run" type="button">Process file <span>→</span></button></div><p class="status" id="status" role="status" aria-live="polite">Choose a file to begin.</p>
 <div class="result" id="output" hidden><h2>Your result is ready</h2><div class="resultmeta"><strong id="resultName"></strong> · <span id="resultSize"></span></div><div class="previewbox" id="outputPreview"></div><div class="actions" id="resultActions" hidden><button class="btn" id="download" type="button">Download</button><button class="btn secondary" id="dropbox" type="button">Save to Dropbox</button><button class="btn secondary" id="share" type="button">Share</button></div><p class="hint">Dropbox opens in a new tab. Download your result, then choose Upload in Dropbox. Direct account connection is not configured.</p></div></section>
 <section class="panel"><h2>More PDF tools</h2><p class="sub">Continue with another workflow when needed.</p><div class="related"><a href="/tools/jpg-to-pdf.html">JPG to PDF ↗</a><a href="/tools/pdf-to-jpg.html">PDF to JPG ↗</a><a href="/tools/pdf-to-word.html">PDF to Word ↗</a><a href="/tools/word-to-pdf.html">Word to PDF ↗</a><a href="/tools/merge-pdf.html">Merge PDF ↗</a><a href="/tools/split-pdf.html">Split PDF ↗</a></div></section>
-</div><aside class="side"><section class="panel"><h2>How it works</h2><ul><li>Upload or drop your file.</li><li>Preview the document.</li><li>Choose options and process.</li><li>Download or share your result.</li></ul></section><div class="ad">Advertisement</div></aside></div></main><footer class="footer"><div class="wrap footin"><span>© 2026 PDFtoPDF.in</span><span>Simple tools for everyday PDF work.</span><a href="/sitemap.xml">Sitemap</a></div></footer><script>
+</div><aside class="side"><section class="panel"><h2>How it works</h2><ul><li>Upload or drop your file.</li><li>Preview the document.</li><li>Choose options and process.</li><li>Download or share your result.</li></ul></section><div class="ad">Advertisement</div></aside></div></main><footer class="footer"><div class="wrap footin"><span>© 2026 PDFtoPDF.in</span><span>Simple tools for everyday PDF work.</span><a href="/sitemap.xml">Sitemap</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script><script>
 (function(){
 const kind="hub", filesEl=document.getElementById('files'), drop=document.getElementById('drop'), browse=document.getElementById('browse'), run=document.getElementById('run'), preview=document.getElementById('preview'), fileList=document.getElementById('fileList'), output=document.getElementById('output'), status=document.getElementById('status'), resultActions=document.getElementById('resultActions');
 let resultBlob=null,resultName='result.pdf',sourceFiles=[];
@@ -27,7 +27,27 @@ document.getElementById('clear').addEventListener('click',()=>{filesEl.value='';
 async function process(){
  if(!sourceFiles.length)return say('Please select a file first.');
  if(kind==='ocr')return say('OCR is not enabled yet. No searchable PDF was created.');
- if(kind==='hub'){location.href=document.getElementById('taskOption').value;return}
+ if(kind==='hub'){
+ run.disabled=true;say('Converting your file…');
+ try{
+ const target=document.getElementById('taskOption').value,f=sourceFiles[0];let blob,name,type='pdf';
+ if(target.endsWith('jpg-to-pdf.html')){
+ if(!f.type.startsWith('image/'))throw Error('Choose a JPG or PNG image for this conversion.');
+ const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:'pt',format:'a4'}),data=await new Promise((r,j)=>{const x=new FileReader();x.onload=()=>r(x.result);x.onerror=j;x.readAsDataURL(f)}),im=new Image();im.src=data;await im.decode();const w=pdf.internal.pageSize.getWidth(),h=pdf.internal.pageSize.getHeight(),s=Math.min(w/im.width,h/im.height);pdf.addImage(data,f.type==='image/png'?'PNG':'JPEG',(w-im.width*s)/2,(h-im.height*s)/2,im.width*s,im.height*s);blob=pdf.output('blob');name='image-to-pdf.pdf';
+ }else if(target.endsWith('pdf-to-jpg.html')){
+ if(!/\.pdf$/i.test(f.name))throw Error('Choose a PDF file for this conversion.');
+ const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,pg=await d.getPage(1),v=pg.getViewport({scale:1.5}),can=document.createElement('canvas');can.width=v.width;can.height=v.height;await pg.render({canvasContext:can.getContext('2d'),viewport:v}).promise;blob=await new Promise(r=>can.toBlob(r,'image/png'));name='pdf-page-1.png';type='image';
+ }else if(target.endsWith('pdf-to-word.html')){
+ if(!/\.pdf$/i.test(f.name))throw Error('Choose a PDF file for this conversion.');
+ const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let txt='';for(let i=1;i<=d.numPages;i++){const pg=await d.getPage(i),ct=await pg.getTextContent();txt+=ct.items.map(x=>x.str).join(' ')+'\n\n'}if(!txt.trim())throw Error('No selectable text found. Scanned PDFs need OCR.');const safe=txt.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));blob=new Blob(['<!doctype html><meta charset="utf-8"><pre style="white-space:pre-wrap;font:12pt Calibri,Arial">'+safe+'</pre>'],{type:'application/msword'});name=f.name.replace(/\.pdf$/i,'')+'.doc';type='doc';
+ }else{
+ if(!/\.docx$/i.test(f.name))throw Error('Choose a DOCX file for this conversion.');
+ const raw=await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()});if(!raw.value.trim())throw Error('No readable text was found.');const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:'pt',format:'a4'}),lines=pdf.splitTextToSize(raw.value,pdf.internal.pageSize.getWidth()-96);let y=55;for(const line of lines){if(y>pdf.internal.pageSize.getHeight()-45){pdf.addPage();y=55}pdf.text(line,48,y);y+=16}blob=pdf.output('blob');name=f.name.replace(/\.docx$/i,'')+'.pdf';
+ }
+ setOutput(blob,name,type);say('Done. Your result is ready below.');
+ }catch(e){say(e&&e.message?e.message:'Conversion failed. Check the file type and try again.')}finally{run.disabled=false}
+ return;
+ }
  try{
  say('Processing your file…');run.disabled=true;let blob,name,type='pdf';
  if(kind==='image'){
