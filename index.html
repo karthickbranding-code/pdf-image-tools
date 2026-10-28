@@ -17,7 +17,7 @@
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -42,6 +42,54 @@
     @media(max-width:900px){.nav{gap:17px}.tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding-top:53px}.benefits{gap:10px}.benefit{padding:14px}.answer-panel{padding:24px}}
     @media(max-width:680px){.shell{width:min(100% - 30px,1180px)}.topbar{height:68px}.nav,.nav-actions .button-quiet{display:none}.nav-actions .button-primary{padding:10px 12px;font-size:12px}.menu-toggle{display:grid}.mobile-nav{display:none;position:absolute;top:62px;left:15px;right:15px;z-index:10;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px;box-shadow:var(--shadow)}.mobile-nav.open{display:grid}.mobile-nav a{padding:12px;border-radius:9px;font-weight:600;color:#526078}.mobile-nav a:hover{background:var(--bg)}.hero{padding:43px 0 24px}.hero h1{font-size:39px;letter-spacing:-1.8px;margin-top:19px}.hero-copy{font-size:15px}.search-wrap{height:54px}.search-hint{display:none}.hero-note{gap:10px 15px;font-size:11px}.section{padding:27px 0 20px}.section h2{font-size:23px}.section-head{align-items:flex-start}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool-card{min-height:145px;padding:15px;gap:9px;border-radius:15px}.tool-card .iconbox{width:39px;height:39px;border-radius:12px}.tool-card strong{font-size:13px}.tool-card small{font-size:11px}.tool-arrow{right:13px;top:12px}.dropzone{padding:18px;gap:13px;align-items:flex-start;flex-wrap:wrap}.upload-art{width:44px;height:44px;flex-basis:44px;border-radius:13px}.upload-art svg{width:22px}.drop-copy{width:calc(100% - 60px);flex:auto}.drop-copy strong{font-size:14px}.drop-copy p{font-size:12px}.drop-actions{width:100%;padding-left:57px}.drop-actions .button{padding:10px 12px;font-size:12px}.benefits{grid-template-columns:1fr;gap:9px;margin:18px 0}.benefit{padding:14px}.answer-panel{grid-template-columns:1fr;gap:20px;padding:21px;margin:20px 0}.answer-panel h2{font-size:21px}.faq{grid-template-columns:1fr;gap:20px;padding:27px 0 35px}.faq-intro h2{font-size:25px}.footer-inner{align-items:flex-start;flex-direction:column;gap:14px}.footer-links{gap:14px}.section-sub{font-size:12px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+    /* IBM Carbon-inspired visual system */
+    :root{color-scheme:light;--ink:#161616;--muted:#525252;--line:#c6c6c6;--paper:#fff;--bg:#f4f4f4;--blue:#0f62fe;--blue2:#0353e9;--lav:#edf5ff;--mint:#defbe6;--shadow:0 2px 8px rgba(0,0,0,.08);--radius:0}
+    body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",Arial,sans-serif;font-size:16px}
+    .shell{width:min(1180px,calc(100% - 48px))}
+    .topbar{height:64px;border-bottom:1px solid var(--line)}
+    .brand{font:600 20px "IBM Plex Sans",sans-serif;letter-spacing:0}
+    .brand-mark{width:34px;height:34px;border-radius:0;background:var(--blue);box-shadow:none}
+    .nav{font-size:14px;font-weight:500;color:#393939}
+    .button{border-radius:0;font-weight:600;transition:background .15s}
+    .button:hover{transform:none}
+    .button-primary{background:var(--blue);box-shadow:none}
+    .button-primary:hover{background:var(--blue2)}
+    .button-quiet{border-radius:0;border-color:var(--line);background:#fff}
+    .hero{padding:48px 0 26px;background:none}
+    .eyebrow{border-radius:0;background:transparent;border:0;padding:0;color:#525252;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+    .eyebrow .spark{width:6px;height:6px;border-radius:0;background:var(--blue);box-shadow:none}
+    .hero h1{font:600 clamp(38px,5vw,58px)/1.08 "IBM Plex Sans",sans-serif;letter-spacing:-1.8px;margin:18px auto 14px}
+    .hero h1 span{color:var(--blue)}
+    .hero-copy{font-size:17px;color:#525252;line-height:1.6}
+    .search-wrap{height:52px;border-radius:0;border:1px solid #8d8d8d;box-shadow:none}
+    .search-wrap input{font-family:"IBM Plex Sans",sans-serif}
+    .hero-note{font-weight:500;color:#525252}
+    .hero-note svg{color:var(--blue)}
+    .section{padding:28px 0 22px}
+    .section h2{font:600 26px/1.25 "IBM Plex Sans",sans-serif;letter-spacing:-.4px}
+    .section-kicker{color:#525252;letter-spacing:1px}
+    .tool-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+    .tool-card{min-height:112px;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:18px;background:#fff;gap:12px}
+    .tool-card:hover,.tool-card:focus-visible{background:#edf5ff;border-color:var(--line);box-shadow:none;transform:none}
+    .tool-card .iconbox,.tool-card:nth-child(3n+2) .iconbox,.tool-card:nth-child(3n+3) .iconbox,.tool-card:nth-child(4n) .iconbox{width:30px;height:30px;border-radius:0;background:transparent;color:var(--blue)}
+    .tool-card .iconbox svg{width:22px;height:22px}
+    .tool-card strong{font:600 15px "IBM Plex Sans",sans-serif;letter-spacing:0}
+    .tool-card small{display:none}
+    .tool-arrow{right:14px;top:13px;color:#525252;font-size:16px}
+    .dropzone{border-radius:0;background:#fff;border:1px solid var(--line);padding:20px;margin-top:20px}
+    .upload-art{border-radius:0;background:#edf5ff;box-shadow:none;color:var(--blue)}
+    .benefit,.answer-panel{border-radius:0;box-shadow:none;border-color:var(--line)}
+    .benefit-icon{border-radius:0;background:#edf5ff;color:var(--blue)}
+    .answer-panel h2,.faq-intro h2{font-family:"IBM Plex Sans",sans-serif;letter-spacing:-.4px}
+    details{padding:16px 0}
+    summary{font-weight:600}
+    footer{background:#fff}
+    .toast{border-radius:0;background:#262626}
+    .menu-toggle{border-radius:0}
+    @media(max-width:900px){.tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:680px){.shell{width:calc(100% - 32px)}.topbar{height:62px}.hero{padding:34px 0 20px}.hero h1{font-size:38px;letter-spacing:-1.2px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tool-card{min-height:96px;padding:14px}.tool-card strong{font-size:14px}.dropzone{border-radius:0}.benefit{border-radius:0}.answer-panel{border-radius:0}}
+
   </style>
 </head>
 <body>
