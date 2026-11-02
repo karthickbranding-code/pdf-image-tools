@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://pdftopdf.in/</loc><lastmod>2026-10-29</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://pdftopdf.in/about.html</loc><lastmod>2026-10-29</lastmod><priority>0.5</priority></url>
-  <url><loc>https://pdftopdf.in/privacy-policy.html</loc><lastmod>2026-10-29</lastmod><priority>0.5</priority></url>
-  <url><loc>https://pdftopdf.in/terms-of-use.html</loc><lastmod>2026-10-29</lastmod><priority>0.5</priority></url>
-  <url><loc>https://pdftopdf.in/disclaimer.html</loc><lastmod>2026-10-29</lastmod><priority>0.5</priority></url>
-  <url><loc>https://pdftopdf.in/contact.html</loc><lastmod>2026-10-29</lastmod><priority>0.5</priority></url>
+  <url><loc>https://pdftopdf.in/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://pdftopdf.in/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/privacy-policy.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/terms-of-use.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/disclaimer.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/contact.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/merge-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/split-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/compress-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/pdf-to-word.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/pdf-to-powerpoint.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/pdf-to-excel.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/word-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/powerpoint-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/excel-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/edit-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/rotate-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/jpg-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/pdf-to-jpg.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/unlock-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/protect-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdftopdf.in/tools/pdf-reader.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
