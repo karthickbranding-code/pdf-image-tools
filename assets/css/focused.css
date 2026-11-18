@@ -225,9 +225,9 @@ nav{gap:34px}
 @media(max-width:640px){.bar{width:calc(100% - 28px);gap:10px}.top nav{gap:10px}.top nav a{font-size:12px;padding:7px 0}.workspace-head{padding:20px 14px}.workspace-head h1{font-size:27px}.main-panel{padding:14px}}
 
 /* Homepage refresh — Poppins, full-page atmosphere and horizontal tool rail */
-.catalog-page{font-family:'Poppins',sans-serif;background:#f7f7ff;color:#20213a;min-height:100vh}
+ .catalog-page{font-family:'Poppins',sans-serif;background:transparent;color:#20213a;min-height:100vh}
 .catalog-page *{font-family:inherit}
-.page-atmosphere{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:linear-gradient(135deg,#f8f7ff 0%,#f4f5ff 47%,#fff7fb 100%)}
+ .page-atmosphere{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:linear-gradient(135deg,#f8f7ff 0%,#f4f5ff 47%,#fff7fb 100%)}
 .ambient{position:absolute;display:block;border-radius:50%;filter:blur(75px);opacity:.52}
 .ambient-a{width:520px;height:520px;left:-180px;top:70px;background:#c9b9ff}
 .ambient-b{width:620px;height:620px;right:-220px;top:110px;background:#ffc4df;opacity:.42}
@@ -279,7 +279,7 @@ nav{gap:34px}
 .category-chip span{font-size:10px;margin-left:6px}
 .rail-hint{display:flex;align-items:center;gap:8px;margin:8px 0 13px;color:#827c98;font-size:10px;font-weight:500}
 .rail-hint-icon{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(130,95,218,.1);color:#815bd7;font-size:14px}
-.tool-rail{overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#c5b4ed transparent;padding:4px 2px 18px;cursor:grab;outline:none}
+ .tool-rail{overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;cursor:default;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#c5b4ed transparent;padding:4px 2px 18px;cursor:grab;outline:none}
 .tool-rail:active{cursor:grabbing}
 .tool-rail::-webkit-scrollbar{height:7px}
 .tool-rail::-webkit-scrollbar-track{background:rgba(132,112,180,.09);border-radius:20px}
